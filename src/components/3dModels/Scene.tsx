@@ -1,43 +1,43 @@
-import { Suspense, useRef } from 'react'
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
-import { PerspectiveCamera as PerspectiveCameraType } from 'three'
+import { KeyboardControls } from '@react-three/drei'
+import { Physics } from '@react-three/rapier'
+import Ecctrl, { EcctrlJoystick } from 'ecctrl'
+// import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
+// import { PerspectiveCamera as PerspectiveCameraType } from 'three'
 
 import { Loader3d, Lights, Character, House } from './'
 
 const Scene = () => {
-	const controlRef = useRef<OrbitControlsType>(null)
-	const cameraRef = useRef<PerspectiveCameraType>(null)
+	// const controlRef = useRef<OrbitControlsType>(null)
+	// const cameraRef = useRef<PerspectiveCameraType>(null)
+
+	const keyboardMap = [
+		{ name: 'forward', keys: ['ArrowUp', 'KeyW'] },
+		{ name: 'backward', keys: ['ArrowDown', 'KeyS'] },
+		{ name: 'leftward', keys: ['ArrowLeft', 'KeyA'] },
+		{ name: 'rightward', keys: ['ArrowRight', 'KeyD'] },
+		{ name: 'jump', keys: ['Space'] },
+		{ name: 'run', keys: ['Shift'] },
+	]
 
 	return (
-		<Canvas>
-			<Suspense fallback={<Loader3d />}>
-				<House />
-				<Character />
+		<>
+			<EcctrlJoystick />
+			<Canvas>
 				<Lights />
-				<PerspectiveCamera
-					ref={cameraRef}
-					position={[10, 10, 10]}
-					near={0.1}
-					far={1000}
-					fov={40}
-					makeDefault
-				/>
-				<OrbitControls
-					ref={controlRef}
-					target={[0, 0, 0]}
-					// minDistance={5}
-					// maxDistance={22}
-					// minPolarAngle={0}
-					// maxPolarAngle={1.35}
-					// minAzimuthAngle={1.1}
-					// maxAzimuthAngle={2.08}
-					// enableRotate={true}
-					enablePan={false}
-				/>
-			</Suspense>
-		</Canvas>
+				<Physics timeStep="vary">
+					<Suspense fallback={<Loader3d />}>
+						<KeyboardControls map={keyboardMap}>
+							<Ecctrl debug>
+								<Character />
+							</Ecctrl>
+						</KeyboardControls>
+						<House />
+					</Suspense>
+				</Physics>
+			</Canvas>
+		</>
 	)
 }
 

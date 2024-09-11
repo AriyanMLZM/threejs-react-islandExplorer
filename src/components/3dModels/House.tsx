@@ -1,13 +1,25 @@
 import { useGLTF } from '@react-three/drei'
-import { houseModel } from '../../assets/models'
+import { RigidBody } from '@react-three/rapier'
+
+import { inn } from '../../assets/models'
 
 const House = () => {
-	const { scene } = useGLTF(houseModel) as any
+	const { nodes, materials } = useGLTF(inn) as any
 
 	return (
-		<mesh>
-			<primitive object={scene} />
-		</mesh>
+		<RigidBody type="fixed" colliders="trimesh" ccd>
+			<group dispose={null}>
+				<group rotation={[-Math.PI / 2, 0, 0]} scale={0.11}>
+					<mesh
+						castShadow
+						receiveShadow
+						geometry={nodes.TheInn_bakeInn_0.geometry}
+					>
+						<meshStandardMaterial map={materials.bakeInn.map} />
+					</mesh>
+				</group>
+			</group>
+		</RigidBody>
 	)
 }
 
