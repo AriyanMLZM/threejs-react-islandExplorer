@@ -1,5 +1,11 @@
+import { Scene } from './components'
+
 const App = () => {
-	return <div>App</div>
+	return (
+		<main className="w-screen h-screen bg-[#222]">
+			<Scene />
+		</main>
+	)
 }
 
 export default App
