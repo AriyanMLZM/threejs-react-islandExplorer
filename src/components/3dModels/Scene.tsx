@@ -8,13 +8,12 @@ import { Loader3d, Lights, Character, House, Controller } from './'
 const Scene = () => {
 	return (
 		<>
-			<EcctrlJoystick />
-			{/* <Joystick
-				size={100}
-				sticky={false}
-				baseColor="red"
-				stickColor="blue"
-			></Joystick> */}
+			<EcctrlJoystick
+			// joystickBaseProps={{
+			// 	receiveShadow: true,
+			// 	material: new MeshBasicMaterial({ color: '#777' }),
+			// }}
+			/>
 			<Canvas>
 				<Lights />
 				<Physics timeStep="vary">
